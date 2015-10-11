@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Classes\UserRelated;
 use Illuminate\Http\Request;
+use App\Email\NewUserEmail;
 use App\User; 
 use App\Responsibility; 
 use Auth;
@@ -57,7 +58,7 @@ class NurseController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Request $request)
+	public function store(Request $request,NewUserEmail $email)
 	{
 		//
 		Log::info("Submitting the add nurse form"); 
@@ -107,8 +108,9 @@ class NurseController extends Controller {
 			$user->delete(); 
 			$profile->delete();  
 		}
+		$email->sendEmail($user->email,$password,"emails.newUserAccount"); 
 		Log::info("created the nurse");
-		return redirect('home/admin');  
+		return redirect('admin/nurse');  
 	}
 
 	/**

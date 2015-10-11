@@ -44,12 +44,23 @@ class AppointmentController extends Controller {
 	}
 
 	/**
+	 * get today's appointments for the nurse
+	 */
+	public function getAppointments(){
+		if (Auth::user()->type==4) {
+			# code...
+			return redirect()->back(); 
+		}
+		$todays = $this->getTodayAppointments(); 
+		return view('appointments.nurseAppointments',compact('todays'));
+	}	
+
+	/**
 	 * get Today's carbon instance;
 	 */
 	public function getCarbonInstance(){
 		return Carbon::now('Asia/Kuala_Lumpur'); 
 	}
-
 
 	/**
 	 * get today's appointments 

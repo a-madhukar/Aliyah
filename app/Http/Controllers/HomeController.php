@@ -69,6 +69,11 @@ class HomeController extends Controller {
 		return Specialism::lists('specialism'); 
 	}
 
+/*	public function test(){
+		dd(env('MANDRILL_SECRET'));
+	}
+	*/
+
 	/**
 	 * list all specialists 
 	 */

@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Classes\ProfileRelated;
 use App\Http\Classes\UserRelated;
 use Illuminate\Http\Request;
+use App\Email\NewUserEmail;
 use Auth;
 use Validator; 
 use Log; 
@@ -64,7 +65,7 @@ class DoctorController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store(Request $request)
+	public function store(Request $request, NewUserEmail $email)
 	{
 		//
 		Log::info('Form posted. checking validation'); 
@@ -121,8 +122,9 @@ class DoctorController extends Controller {
 		 	$profile->delete(); 
 		 	$specialism->delete();   
 		 }
+		 $email->sendEmail($user->email,$password,"emails.newUserAccount"); 
 		Log::info("Successfully created the specialism. return to the dash");
-		return redirect('home/admin');  
+		return redirect('admin/doctor');  
 
 	}
 

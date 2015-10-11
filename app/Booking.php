@@ -25,4 +25,11 @@ class Booking extends Model {
 		return $this->belongsTo('App\User','user_id'); 
 	}
 
+	/**
+	 * relationship with prescription
+	 */
+	public function prescriptions(){
+		return $this->hasMany('App\Prescription','booking_id'); 
+	}
+
 }

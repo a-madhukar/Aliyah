@@ -34,6 +34,7 @@
 								<span>at</span>
 								<span><strong> {{$_today->appoint_time}}</strong></span>
 							</p>
+							<p><a href="/medical/history/{{$_today->user_id}}/{{$_today->booking_id}}">View Medical Profile</a></p>
 						</li>
 					@endforeach
 				</ol>				

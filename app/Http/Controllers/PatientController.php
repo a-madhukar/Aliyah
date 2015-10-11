@@ -9,6 +9,7 @@ use App\User;
 use App\Profile; 
 use App\Booking; 
 use DB; 
+use Auth;
 
 class PatientController extends Controller {
 
@@ -36,9 +37,26 @@ class PatientController extends Controller {
 	}
 
 	/**
-	 * get booking history for patient
-	 */ 
-	public function getBookingHistory($id){
+	 * view booking history for patient
+	 */
+	public function viewBookings(){
+		if (Auth::check()) {
+			# code...
+			if (Auth::user()->type==4) {
+				# code...
+				$history = $this->getHistory(Auth::user()->id);
+				return view('patient.bookingHistory',compact('history')); 
+			}
+			return redirect()->back(); 
+		}
+		return redirect()->back(); 
+	}
+
+
+	/**
+	 *  queries the database
+	 */
+	public function getHistory($id){
 		$history = DB::table('users')
 					->join('bookings','bookings.user_id','=','users.id')
 					->where('users.id','=',$id)
@@ -47,7 +65,15 @@ class PatientController extends Controller {
 					->select('profiles.first_name','profiles.last_name','appointments.appoint_date','appointments.appoint_time')
 					->orderBy('appointments.appoint_date','desc')
 					->orderBy('appointments.appoint_time','desc')
-					->get(); 
+					->get();
+		return $history; 
+	}
+
+	/**
+	 * get booking history for patient
+	 */ 
+	public function getBookingHistory($id){
+		 $history = $this->getHistory($id);
 		return view('patient.bookingHistory',compact('history')); 
 	} 
 

@@ -31,13 +31,13 @@
 				</button>
 				@if(Auth::check())
 					@if(Auth::user()->type==1)
-						<a class="navbar-brand" href="{{url('home/admin')}}">Project Health</a>
+						<a class="navbar-brand" href="{{url('admin/doctor')}}">Project Health</a>
 					@elseif(Auth::user()->type==2)
-						<a class="navbar-brand" href="{{url('home/doctor')}}">Project Health</a>
+						<a class="navbar-brand" href="{{url('doctor/appointment')}}">Project Health</a>
 					@elseif(Auth::user()->type==3)
-						<a class="navbar-brand" href="{{url('home/nurse')}}">Project Health</a>
+						<a class="navbar-brand" href="{{url('nurse/appointments')}}">Project Health</a>
 					@elseif(Auth::user()->type==4)
-						<a class="navbar-brand" href="{{url('home/patient')}}">Project Health</a>
+						<a class="navbar-brand" href="{{url('patient/history/booking')}}">Project Health</a>
 					@endif
 				@else
 					<a class="navbar-brand" href="{{url('/')}}">Project Health</a>
@@ -77,6 +77,7 @@
 
 				  	@elseif(Auth::user()->type==4)
 				  		<li><a href="#" data-toggle="modal" data-target=".bs-example-modal-sm">Book</a></li>
+				  		<li><a href="{{url('patient/history/view')}}">Medical History</a></li>
 				  	@endif
 				  @endif
 				</ul>
@@ -104,30 +105,35 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script> -->
 
+@if(Auth::check())
+	@if(Auth::user()->type==1)
+		<!--Search Patient Modal-->
+		<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" arialabelledby="searchPatientModal">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Search Patient</h4>
+					</div>
+					<form action="{{url('admin/search/patient')}}" method="GET">
+						<div class="modal-body">
+							<div class="form-group">
 
-	<!--Search Patient Modal-->
-	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" arialabelledby="searchPatientModal">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">Search Patient</h4>
-				</div>
-				<form action="{{url('admin/search/patient')}}" method="GET">
-					<div class="modal-body">
-						<div class="form-group">
-
-							<input type="text" placeholder="Search By First Name" name="first_name" class="form-control">
+								<input type="text" placeholder="Search By First Name" name="first_name" class="form-control">
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<button class="btn btn-primary center-block" type="submit">
-							Find
-						</button>
-					</div>
-				</form>	
+						<div class="modal-footer">
+							<button class="btn btn-primary center-block" type="submit">
+								Find
+							</button>
+						</div>
+					</form>	
+				</div>
 			</div>
-		</div>
-	</div> 
+		</div> 
+	@endif
+@endif
+
+	
 
 @if(Auth::check())
 	@if(Auth::user()->type==4)

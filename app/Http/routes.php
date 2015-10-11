@@ -55,7 +55,12 @@ Route::group(['prefix'=>'admin'],function(){
 
 Route::group(['prefix'=>'doctor'],function(){
 	Route::resource('appointment','AppointmentController'); 
+
 }); 
+
+Route::group(['prefix'=>'nurse'],function(){
+	Route::get('appointments','AppointmentController@getAppointments'); 
+});
 
 Route::group(['prefix'=>'appointment'],function(){ 
 	Route::get('get/{id}','AppointmentController@getApptForSpecialist');   
@@ -63,4 +68,17 @@ Route::group(['prefix'=>'appointment'],function(){
 });
 
 Route::get('search/specialist','SearchController@getSearchForm'); 
+
+Route::get('send/test/email','TestController@sendTestEmail'); 
+
+Route::resource('prescription','PrescriptionController'); 
+Route::get('prescription/delete/{id}','PrescriptionController@destroy'); 
+
+Route::get('medical/history/{userId}/{bookingId}','PrescriptionController@getMedicalHistory'); 
+
+Route::group(['prefix'=>'patient'],function(){
+	Route::get('history/view','PrescriptionController@viewHistory'); 
+	Route::get('history/booking','PatientController@viewBookings'); 
+}); 
+//Route::get('key','HomeController@test'); 
 

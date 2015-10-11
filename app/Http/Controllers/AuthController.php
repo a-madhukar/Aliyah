@@ -10,6 +10,7 @@ use App\User;
 use App\Profile;
 use Log;
 use Session;
+use App\Specialism;
 
 class AuthController extends Controller {
 
@@ -54,7 +55,7 @@ class AuthController extends Controller {
 			//$user = Auth::user(); 
 			//dd($user);
 
-			return redirect('home/admin');
+			return redirect('admin/doctor');
 		}elseif (Auth::attempt(['email'=>$input['email'],
 				'password'=>$input['password'],'type'=>2
 			])) {
@@ -62,22 +63,29 @@ class AuthController extends Controller {
 			//$user = Auth::user(); 
 			//dd($user);
 
-			return redirect('home/doctor');
+			return redirect('doctor/appointment');
 		}elseif (Auth::attempt(['email'=>$input['email'],'password'=>$input['password'],'type'=>3])) {
 			# code...
 			//$user = Auth::user(); 
 			//dd($user);
 
-			return redirect('home/nurse');
+			return redirect('nurse/appointments');
 		}elseif (Auth::attempt(['email'=>$input['email'],'password'=>$input['password'],'type'=>4])) {
 			# code...
 			//$user = Auth::user(); 
 			//dd($user);
+			$specialismList=$this->getSpecialismList();
+			Session::put('specialismList',$specialismList);
 
-			return redirect('home/patient');
+			return redirect('patient/history/booking');
 		}
 
 		dd("login Failed");
+	}
+
+
+	public function getSpecialismList(){
+		return Specialism::lists('specialism'); 
 	}
 
 	public function getSignUpForm(){

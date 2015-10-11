@@ -21,6 +21,9 @@
 				@endforeach
 			</ol>
 		@else
+			@if(Auth::user()->type==4)
+				<p>You haven't made any bookings yet.</p>
+			@endif
 			<p>The patient hasn't booked any appointments</p>
 		@endif
 	</div>
